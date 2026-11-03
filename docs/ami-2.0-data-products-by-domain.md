@@ -68,6 +68,24 @@ telemetry; DEV = device inventory/status/firmware; CFG = meter configuration.
 | Field order closure data | Auto-verified completion | EVT | WMS |
 | Meter shop test results | Returned meter diagnostics | DEV | Meter shop |
 
+### 4a. Meter Triage (cross-domain: metering ops, telecom, field, billing)
+
+Meter triage = detect a meter/endpoint problem, classify the root cause, and route to the cheapest
+fix (remote action, network fix, billing workaround or field visit).
+
+| Data product | Description | Sources | Consumers |
+|---|---|---|---|
+| Non-communicating meter list | Meters missing expected reads, aged by days silent | INT, COM, DEV | Meter ops |
+| Root-cause classification | Cause per meter: comms/RF coverage, collector/cell issue, meter hardware fault, power off (outage or disconnect), firmware, config, tamper, vacant premise | COM, DEV, EVT, LG/RN, CFG | Meter ops, telecom |
+| Triage priority score | Ranks by bill-cycle risk, revenue at stake, critical/medical customer, repeat offender, safety (tamper, hot socket) | INT, CIS | Meter ops |
+| Remote remediation outcomes | Ping, on-demand read, re-register, reboot, config/firmware push; results and success rates | DEV, CFG | Meter ops |
+| Triage routing queue | Case assignment: remote fix, network team, billing estimation, field order | all | Dispatch, WMS |
+| Field work order package | Meter ID, location, diagnosis, history of remote attempts, safety flags, suggested parts | DEV, EVT, GIS | Field, WMS |
+| Billing-impact view | Accounts with missing reads heading into bill run, estimated vs. actual exposure | INT, CIS | Billing ops |
+| Repeat-failure / bad-actor list | Meters or model/firmware/lot cohorts with recurring problems | DEV, EVT | Metering, vendor mgmt |
+| Triage KPIs | Mean time to detect/resolve, % fixed remotely, truck rolls avoided, backlog by cause, read success rate | all | Management |
+| Resolution feedback loop | Closure code and actual cause, used to refine classification | WMS | Analytics |
+
 ## 5. Customer Programs and Engagement
 
 | Data product | Description | Sources | Consumers |
